@@ -1,0 +1,19 @@
+{
+  "name": "react-native-share-local",
+  "version": "1.0.0",
+  "description": "react native 调用系统本地分享插件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmlidc/react-native-share-local.git"
+  },
+  "author": "kmlidc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kmlidc/react-native-share-local/issues"
+  },
+  "homepage": "https://github.com/kmlidc/react-native-share-local#readme"
+}
