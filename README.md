@@ -15,7 +15,7 @@ run `npm install react-native-share-local --save`
 
 
 ## API
-* `shareSimple(option)`普通分享
+* `shareMessage(option)`普通分享
 * `shareLink(option)`分享网址
 * `sharePictures(option)`分享多图
 
