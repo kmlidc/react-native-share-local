@@ -1,32 +1,32 @@
-#**React Native Share Local**
+#React Native Share Local
 
 shareLocal封装了IOS系统原生的分享组件。
 
 **使用这个组件不需要集成微信、QQ等第三方服务的sdk，也不需要申请appke 只要按照下面的方法就可以调用**
 
-##**Installation**
+##Installation
 
 run `npm install react-native-share-local --save`
 
-###**IOS**
+###IOS
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. add `./node_modules/react-native-share-local/IOS/RNShareLocal.xcodeproj`
 3. In the XCode project navigator, select your project, select the `Build Phases` tab and in the `Link Binary With Libraries` section add **libRNShareLocal.a**
 
 
-##**API**
+##API
 * `shareSimple(option)`普通分享
 * `shareLink(option)`分享网址
 * `sharePictures(option)`分享多图
 
-##**Example**
+##Example
 
-###**first import shareLocal**
+###first import shareLocal
 ```js
 import {shareSimple,shareLink,sharePictures} from 'react-native-share-local'
 ```
 
-###**shareSimple(option)**
+###shareSimple(option)
 ```js
 <Text style={styles.welcome} onPress={()=>{
   var option={
@@ -44,7 +44,7 @@ import {shareSimple,shareLink,sharePictures} from 'react-native-share-local'
 </Text>
 ```
 
-###**shareLink(option)**
+###shareLink(option)
 ```js
 <Text style={styles.welcome} onPress={()=>{
   var option={
@@ -62,7 +62,7 @@ import {shareSimple,shareLink,sharePictures} from 'react-native-share-local'
   分享网址
 </Text>
 ```
-###**sharePictures(option)**
+###sharePictures(option)
 最多可分享九张图片，超过的不显示
 
 ```js
