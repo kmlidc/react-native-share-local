@@ -23,10 +23,10 @@ run `npm install react-native-share-local --save`
 
 ### first import shareLocal
 ```js
-import {shareSimple,shareLink,sharePictures} from 'react-native-share-local'
+import {shareMessage,shareLink,sharePictures} from 'react-native-share-local'
 ```
 
-### shareSimple(option)
+### shareMessage(option)
 ```js
 <Text style={styles.welcome} onPress={()=>{
   var option={
@@ -38,7 +38,7 @@ import {shareSimple,shareLink,sharePictures} from 'react-native-share-local'
       }
     }
   };
-  shareSimple(option);
+  shareMessage(option);
 }}>
   普通分享
 </Text>

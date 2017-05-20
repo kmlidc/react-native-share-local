@@ -13,7 +13,7 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(simple:(NSString *)title picUrl:(NSString *)picUrl callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(message:(NSString *)title picUrl:(NSString *)picUrl callback:(RCTResponseSenderBlock)callback)
 {
     //定义一个可变数组，最多不能超过2个值
     NSMutableArray * objectsToShare = [NSMutableArray arrayWithCapacity:2];
@@ -34,7 +34,7 @@ RCT_EXPORT_METHOD(simple:(NSString *)title picUrl:(NSString *)picUrl callback:(R
 }
 
 //分享连接
-RCT_EXPORT_METHOD(url:(NSString *)title url:(NSString *)url picUrl:(NSString *)picUrl callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(link:(NSString *)title url:(NSString *)url picUrl:(NSString *)picUrl callback:(RCTResponseSenderBlock)callback)
 {
     
     //定义一个可变数组，最多不能超过2个值
