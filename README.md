@@ -8,11 +8,108 @@ shareLocal封装了IOS系统原生的分享组件。
 
 run `npm install react-native-share-local --save`
 
-### IOS
+## Automatically link
+run `react-native link react-native-share-local`
+
+## Manually link
+
+### iOS (via Cocoa Pods)
+Add the following line to your build targets in your `Podfile`
+
+`pod 'RNShareLocal', :path => '../node_modules/react-native-share-local'`
+
+Then run `pod install`
+
+### IOS (without Cocoa Pods)
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. add `./node_modules/react-native-share-local/IOS/RNShareLocal.xcodeproj`
 3. In the XCode project navigator, select your project, select the `Build Phases` tab and in the `Link Binary With Libraries` section add **libRNShareLocal.a**
 
+### Android
+- in android/app/build.gradle:
+
+```diff
+dependencies {
+    ...
+    compile "com.facebook.react:react-native:+"  // From node_modules
++   compile project(':react-native-share-local')
+}
+```
+- in `android/settings.gradle`:
+
+```diff
+...
+include ':app'
++ include ':react-native-share-local'
++ project(':react-native-share-local').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share-local/android')
+```
+
+#### With React Native 0.29+
+
+- in `MainApplication.java`:
+
+```diff
++ import com.kmlidc.RNShareLocal.RNShareLocal;
+
+  public class MainApplication extends Application implements ReactApplication {
+    //......
+
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
++         new RNShareLocal(),
+          new MainReactPackage()
+      );
+    }
+
+    ......
+  }
+```
+
+#### With older versions of React Native:
+
+- in `MainActivity.java`:
+
+```diff
++ import com.kmlidc.RNShareLocal.RNShareLocal;
+
+  public class MainActivity extends ReactActivity {
+    ......
+
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
++       new RNShareLocal(),
+        new MainReactPackage()
+      );
+    }
+  }
+```
+
+(Thanks to @chirag04 for writing the instructions)
+
+### Windows
+- Open the solution in Visual Studio for your Windows apps
+- right click your in the Explorer and click Add > Existing Project...
+- Navigate to `./<app-name>/node_modules/react-native-share-local/windows/RNShareLocal` and add `RNShareLocal.csproj`
+- this time right click on your React Native Windows app under your solutions directory and click Add > Reference...
+- check the `RNShareLocal` you just added and press ok
+- open up `MainPage.cs` for your app and edit the file like so:
+
+```diff
++ using RNShareLocal;
+......
+            get
+            {
+                return new List<IReactPackage>
+                {
+                    new MainReactPackage(),
++                   new RNShareLocalPackage(),
+                };
+            }
+```
+
+(Thanks to @josephan for writing the instructions)
 
 ## API
 * `shareMessage(option)`普通分享

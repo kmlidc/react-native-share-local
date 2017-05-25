@@ -1,5 +1,5 @@
 'use strict'
-import {NativeModules,Platform} from 'react-native'
+import {NativeModules,Platform,CameraRoll} from 'react-native'
 
 const shareLocal = NativeModules.RNShareLocal
 
@@ -24,7 +24,7 @@ export function shareLink(option){
         if(option.callback)option.callback(error);
       });
     }else if (Platform.OS === 'android') {
-      return shareLocal.link(option.winTitle,option.subject,option.message,option.component,(error)=>{
+      return shareLocal.link(option.winTitle,option.subject,option.url,option.component,(error)=>{
         if(option.callback)option.callback(error);
       });
     }
@@ -33,8 +33,18 @@ export function shareLink(option){
 
 export function sharePictures(option){
   if(option instanceof Object && option.length == undefined){
-    return shareLocal.pictures(option.imagesUrl,(error)=>{
-      if(option.callback)option.callback(error);
-    });
+    if(Platform.OS === 'ios'){
+      return shareLocal.pictures(option.imagesUrl,(error)=>{
+        if(option.callback)option.callback(error);
+      });
+    }else if (Platform.OS === 'android') {
+      shareLocal.downloadImage(option.imagesUrl).then(result=>{
+        var imagesFile = JSON.parse(result);
+        return shareLocal.pictures(option.winTitle,option.subject,option.text,imagesFile,option.component,(error)=>{
+          if(option.callback)option.callback(error);
+        });
+      });
+
+    }
   }
 }
