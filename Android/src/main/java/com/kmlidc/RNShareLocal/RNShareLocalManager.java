@@ -7,7 +7,6 @@ import android.app.Activity;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReadableArray;
@@ -17,25 +16,13 @@ import com.facebook.react.uimanager.IllegalViewOperationException;
 import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.io.InputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
-import java.io.IOException;
-import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
 
 /**
  * Created by yangbin on 2017/5/20.
