@@ -124,6 +124,7 @@ import {shareMessage,shareLink,sharePictures} from 'react-native-share-local'
 ```
 
 ### shareMessage(option)
+#### IOS
 ```js
 <Text style={styles.welcome} onPress={()=>{
   var option={
@@ -140,8 +141,25 @@ import {shareMessage,shareLink,sharePictures} from 'react-native-share-local'
   普通分享
 </Text>
 ```
+#### Android
+```js
+<Text style={styles.welcome} onPress={()=>{
+  shareMessage({
+    winTitle:"窗口标题",
+    subject:"主题",
+    text:"正文",
+    component:["com.tencent.mobileqq","com.tencent.mobileqq.activity.JumpActivity"],
+    callback:(error)=>{
+      alert(error)
+    }
+  })
+}}>
+  普通分享
+</Text>
+```
 
 ### shareLink(option)
+#### IOS
 ```js
 <Text style={styles.welcome} onPress={()=>{
   var option={
@@ -159,9 +177,26 @@ import {shareMessage,shareLink,sharePictures} from 'react-native-share-local'
   分享网址
 </Text>
 ```
+#### Android
+```js
+<Text style={styles.welcome} onPress={()=>{
+  shareLink({
+    winTitle:"窗口标题",
+    subject:"主题",
+    url:"http://www.baidu.com",
+    component:["com.tencent.mobileqq","com.tencent.mobileqq.activity.JumpActivity"],
+    callback:(error)=>{
+      alert(error)
+    }
+  })
+}}>
+  分享连接地址
+</Text>
+```
+
 ### sharePictures(option)
 最多可分享九张图片，超过的不显示
-
+#### IOS
 ```js
 <Text style={styles.welcome} onPress={()=>{
   var images = [
@@ -181,6 +216,30 @@ import {shareMessage,shareLink,sharePictures} from 'react-native-share-local'
   分享多图
 </Text>
 ```
+
+#### Android
+```js
+<Text style={styles.welcome} onPress={()=>{
+  sharePictures({
+    winTitle:"窗口标题",
+    subject:"主题",
+    imagesUrl:[
+      "http://img.gemejo.com/product/8c/099/cf53b3a6008136ef0882197d5f5.jpg",
+      "http://img.gemejo.com/product/45/1f0/f2f5067b718a01ef30abf738100.jpg"
+    ],
+    text:"测试一下朋友圈分享",
+    //component:["com.tencent.mobileqq","com.tencent.mobileqq.activity.JumpActivity"],
+    component:["com.tencent.mm","com.tencent.mm.ui.tools.ShareToTimeLineUI"],
+    callback:(error)=>{
+      alert("success")
+    }
+  })
+}}>
+  分享多张图片
+</Text>
+```
+
+
 ## 补充说明
 
 分享过程中如果有图片，会先下载完成图片之后再弹出分享菜单。建议增加网络加载图标，然后通过回调关闭加载图标。
