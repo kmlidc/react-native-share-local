@@ -243,3 +243,23 @@ import {shareMessage,shareLink,sharePictures} from 'react-native-share-local'
 ## 补充说明
 
 分享过程中如果有图片，会先下载完成图片之后再弹出分享菜单。建议增加网络加载图标，然后通过回调关闭加载图标。
+
+```js
+excluded:[
+       'UIActivityTypeMessage',
+       'UIActivityTypePostToFacebook',
+       'UIActivityTypePostToTwitter',
+       'UIActivityTypePostToWeibo',
+       'UIActivityTypeMail',
+       'UIActivityTypePrint',
+       'UIActivityTypeCopyToPasteboard',
+       'UIActivityTypeAssignToContact',
+       'UIActivityTypeSaveToCameraRoll',
+       'UIActivityTypeAddToReadingList',
+       'UIActivityTypePostToFlickr',
+       'UIActivityTypePostToVimeo',
+       'UIActivityTypePostToTencentWeibo',
+       'UIActivityTypeAirDrop',
+       'UIActivityTypeOpenInIBooks'
+     ]
+```
