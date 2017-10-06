@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.ComponentName;
 import android.app.Activity;
 
-import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -12,6 +11,11 @@ import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.uimanager.IllegalViewOperationException;
+
+
+import com.facebook.react.bridge.ActivityEventListener;
+import com.facebook.react.bridge.BaseActivityEventListener;
+import android.util.Log;
 
 import java.lang.String;
 import java.util.ArrayList;
@@ -28,10 +32,18 @@ import java.io.ByteArrayOutputStream;
  * Created by yangbin on 2017/5/20.
  */
 
-public class RNShareLocalManager extends ReactContextBaseJavaModule{
+public class RNShareLocalManager extends ReactContextBaseJavaModule implements ActivityEventListener{
+    private Activity mActivity;
+    private ReactApplicationContext reactContext;
+    private Callback callback;
 
-    public RNShareLocalManager(ReactApplicationContext reactContext) {
+    final int SHARE_REQUEST = 500;
+
+    public RNShareLocalManager(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
+        this.mActivity = activity;
+        this.reactContext = reactContext;
+        this.reactContext.addActivityEventListener(new RNShareLocalActivityEventListener());
     }
 
     @Override
@@ -39,8 +51,29 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule{
         return "RNShareLocal";
     }
 
+    private class RNShareLocalActivityEventListener extends BaseActivityEventListener {
+        @Override
+        public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
+            if (requestCode == SHARE_REQUEST) {
+                callback.invoke("success");
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+
+    }
+
     @ReactMethod
     public void message(String winTitle,String subject,String message,ReadableArray component, Callback callback) {
+        this.callback = callback;
+
         Intent intent=new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_SUBJECT,subject);
         intent.putExtra(Intent.EXTRA_TEXT,message);
@@ -54,22 +87,12 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule{
             intent.setComponent(new ComponentName(component.getString(0), component.getString(1)));
         }
 
-        Activity currentActivity = getCurrentActivity();
-        if (currentActivity != null) {
-            currentActivity.startActivity(chooser);
-        } else {
-            getReactApplicationContext().startActivity(chooser);
-        }
-
-        try{
-            callback.invoke(false);
-        } catch (IllegalViewOperationException e){
-            callback.invoke(true);
-        }
+        mActivity.startActivityForResult(chooser,SHARE_REQUEST);
     }
 
     @ReactMethod
     public void link(String winTitle,String subject,String url,ReadableArray component, Callback callback) {
+        this.callback = callback;
         Intent intent=new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_SUBJECT,subject);
         intent.putExtra(Intent.EXTRA_TEXT, url);
@@ -83,22 +106,12 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule{
             intent.setComponent(new ComponentName(component.getString(0), component.getString(1)));
         }
 
-        Activity currentActivity = getCurrentActivity();
-        if (currentActivity != null) {
-            currentActivity.startActivity(chooser);
-        } else {
-            getReactApplicationContext().startActivity(chooser);
-        }
-
-        try{
-            callback.invoke(false);
-        } catch (IllegalViewOperationException e){
-            callback.invoke(true);
-        }
+        mActivity.startActivityForResult(chooser,SHARE_REQUEST);
     }
 
     @ReactMethod
     public void pictures(String winTitle,String subject,String message,ReadableArray imagesFile,ReadableArray component, Callback callback) {
+        this.callback = callback;
         ArrayList<Uri> uris = new ArrayList<Uri>();
         for(int i=0; i<imagesFile.size();i++){
             uris.add(Uri.parse(imagesFile.getString(i)));
@@ -118,13 +131,7 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule{
             intent.setComponent(new ComponentName(component.getString(0), component.getString(1)));
         }
 
-        Activity currentActivity = getCurrentActivity();
-        if (currentActivity != null) {
-            currentActivity.startActivity(chooser);
-        } else {
-            getReactApplicationContext().startActivity(chooser);
-        }
-        callback.invoke(false);
+        mActivity.startActivityForResult(chooser,SHARE_REQUEST);
     }
 
     @ReactMethod
