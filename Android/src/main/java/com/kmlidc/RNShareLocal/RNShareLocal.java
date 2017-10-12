@@ -16,16 +16,14 @@ import java.util.List;
  */
 
 public class RNShareLocal implements ReactPackage{
-    private Activity mActivity = null;
 
-    public RNShareLocal(Activity activity) {
-        mActivity = activity;
+    public RNShareLocal() {
     }
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new RNShareLocalManager(reactContext,mActivity));
+        modules.add(new RNShareLocalManager(reactContext));
         return modules;
     }
 
