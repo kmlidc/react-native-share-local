@@ -14,7 +14,6 @@ import com.facebook.react.uimanager.IllegalViewOperationException;
 
 
 import com.facebook.react.bridge.ActivityEventListener;
-import com.facebook.react.bridge.BaseActivityEventListener;
 import android.util.Log;
 
 import java.lang.String;
@@ -33,15 +32,13 @@ import java.io.ByteArrayOutputStream;
  */
 
 public class RNShareLocalManager extends ReactContextBaseJavaModule implements ActivityEventListener{
-    private Activity mActivity;
     private ReactApplicationContext reactContext;
     private Callback callback;
 
     final int SHARE_REQUEST = 500;
 
-    public RNShareLocalManager(ReactApplicationContext reactContext, Activity activity) {
+    public RNShareLocalManager(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.mActivity = activity;
         this.reactContext = reactContext;
         this.reactContext.addActivityEventListener(new RNShareLocalActivityEventListener());
     }
@@ -50,24 +47,32 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
     public String getName() {
         return "RNShareLocal";
     }
-
-    private class RNShareLocalActivityEventListener extends BaseActivityEventListener {
-        @Override
-        public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
-            if (requestCode == SHARE_REQUEST) {
-                callback.invoke("success");
-            }
+private class RNShareLocalActivityEventListener implements ActivityEventListener {
+    public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
+        if (requestCode == SHARE_REQUEST) {
+            callback.invoke("success");
         }
     }
+  /*  @Override
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
 
-    @Override
+    } */
+    public void onNewIntent(Intent intent) {
+        
+    }
+}
+
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
 
     }
+    /*
+   @Override
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
 
-    @Override
+    }*/
+
     public void onNewIntent(Intent intent) {
-
+        
     }
 
     @ReactMethod
@@ -87,7 +92,7 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
             intent.setComponent(new ComponentName(component.getString(0), component.getString(1)));
         }
 
-        mActivity.startActivityForResult(chooser,SHARE_REQUEST);
+        getCurrentActivity().startActivityForResult(chooser,SHARE_REQUEST);
     }
 
     @ReactMethod
@@ -106,7 +111,7 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
             intent.setComponent(new ComponentName(component.getString(0), component.getString(1)));
         }
 
-        mActivity.startActivityForResult(chooser,SHARE_REQUEST);
+        getCurrentActivity().startActivityForResult(chooser,SHARE_REQUEST);
     }
 
     @ReactMethod
@@ -131,7 +136,7 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
             intent.setComponent(new ComponentName(component.getString(0), component.getString(1)));
         }
 
-        mActivity.startActivityForResult(chooser,SHARE_REQUEST);
+        getCurrentActivity().startActivityForResult(chooser,SHARE_REQUEST);
     }
 
     @ReactMethod
