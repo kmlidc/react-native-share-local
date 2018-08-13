@@ -47,32 +47,29 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
     public String getName() {
         return "RNShareLocal";
     }
-private class RNShareLocalActivityEventListener implements ActivityEventListener {
-    public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
-        if (requestCode == SHARE_REQUEST) {
-            callback.invoke("success");
+
+    private class RNShareLocalActivityEventListener implements ActivityEventListener {
+        public void onActivityResult(Activity activity, final int requestCode, final int resultCode, final Intent intent) {
+            if (requestCode == SHARE_REQUEST) {
+                try {
+                    callback.invoke("success");
+                }catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }
+
+        public void onNewIntent(Intent intent) {
+
         }
     }
-  /*  @Override
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-
-    } */
-    public void onNewIntent(Intent intent) {
-        
-    }
-}
 
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
 
     }
-    /*
-   @Override
-    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-
-    }*/
 
     public void onNewIntent(Intent intent) {
-        
+
     }
 
     @ReactMethod
@@ -92,7 +89,11 @@ private class RNShareLocalActivityEventListener implements ActivityEventListener
             intent.setComponent(new ComponentName(component.getString(0), component.getString(1)));
         }
 
-        getCurrentActivity().startActivityForResult(chooser,SHARE_REQUEST);
+        try {
+            getCurrentActivity().startActivityForResult(chooser, SHARE_REQUEST);
+        }catch (Exception e){
+
+        }
     }
 
     @ReactMethod
@@ -111,7 +112,11 @@ private class RNShareLocalActivityEventListener implements ActivityEventListener
             intent.setComponent(new ComponentName(component.getString(0), component.getString(1)));
         }
 
-        getCurrentActivity().startActivityForResult(chooser,SHARE_REQUEST);
+        try {
+            getCurrentActivity().startActivityForResult(chooser, SHARE_REQUEST);
+        }catch (Exception e){
+
+        }
     }
 
     @ReactMethod
@@ -136,7 +141,11 @@ private class RNShareLocalActivityEventListener implements ActivityEventListener
             intent.setComponent(new ComponentName(component.getString(0), component.getString(1)));
         }
 
-        getCurrentActivity().startActivityForResult(chooser,SHARE_REQUEST);
+        try {
+            getCurrentActivity().startActivityForResult(chooser, SHARE_REQUEST);
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
     @ReactMethod
