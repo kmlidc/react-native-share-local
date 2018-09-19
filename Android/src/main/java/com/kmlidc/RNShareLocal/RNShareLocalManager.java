@@ -27,6 +27,9 @@ import java.net.HttpURLConnection;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 
+import java.security.MessageDigest;
+import java.math.BigInteger;
+
 /**
  * Created by yangbin on 2017/5/20.
  */
@@ -153,7 +156,11 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
         List<String> paths = new ArrayList<String>();
         for(int i=0; i<imagesUrl.size();i++){
             String imageUrl = imagesUrl.getString(i);
-            String fileName = i + ".jpg";
+            String pathMd5 = this.md5(imageUrl);
+            String fileName = i +".jpg";
+            if(pathMd5.length() > 0) {
+                fileName = pathMd5 +".jpg";
+            }
             String path = this.download(imageUrl,fileName);
             paths.add(path);
         }
@@ -167,6 +174,10 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
         final String savePath = getReactApplicationContext().getExternalCacheDir() + "/" + fileName;
         try {
             File f = new File(savePath);
+            //如果文件存在且不等于1.jpg等
+            if( fileName.length() == 36 && f.exists()){
+                return "file://" + savePath;
+            }
             File dir = f.getParentFile();
             if(!dir.exists())
                 dir.mkdirs();
@@ -211,4 +222,22 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
         inStream.close();
         return outStream.toByteArray();
     }
+
+    /*
+    使用MD5加密
+     */
+    public static String md5(String str){
+        try {
+            // 生成一个MD5加密计算摘要
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // 计算md5函数
+            md.update(str.getBytes());
+            // digest()最后确定返回md5 hash值，返回值为8为字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
+            // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
+            return new BigInteger(1, md.digest()).toString(16);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
 }
