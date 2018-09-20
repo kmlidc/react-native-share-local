@@ -48,3 +48,12 @@ export function sharePictures(option){
     }
   }
 }
+
+export function downloadImage(imagesUrl){
+  if (Platform.OS === 'android') {
+    return shareLocal.downloadImage(imagesUrl).then(result=>{
+      var imagesFile = JSON.parse(result);
+      return imagesFile;
+    });
+  }
+}
