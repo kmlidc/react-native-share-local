@@ -44,7 +44,6 @@ export function sharePictures(option){
           if(option.callback)option.callback(error);
         });
       });
-
     }
   }
 }

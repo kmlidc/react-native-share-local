@@ -29,6 +29,7 @@ import java.io.ByteArrayOutputStream;
 
 import java.security.MessageDigest;
 import java.math.BigInteger;
+import java.io.FileInputStream;
 
 /**
  * Created by yangbin on 2017/5/20.
@@ -179,8 +180,12 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
                 return "file://" + savePath;
             }
             File dir = f.getParentFile();
-            if(!dir.exists())
-                dir.mkdirs();
+            if(!dir.exists()) dir.mkdirs();//不存在目录则创建
+            //如果是本地文件则拷贝
+            if(imageUrl.indexOf("file") == 0){
+                this.copyFile(imageUrl.substring(6),savePath);
+                return "file://" + savePath;
+            }
             FileOutputStream os = new FileOutputStream(f);
             byte[] data = getImage(imageUrl);
             os.write(data);
@@ -221,6 +226,35 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
         outStream.close();
         inStream.close();
         return outStream.toByteArray();
+    }
+
+    /*
+    复制文件
+     */
+    public void copyFile(String oldPath, String newPath) {
+        try {
+            int bytesum = 0;
+            int byteread = 0;
+            File oldfile = new File(oldPath);
+            if (oldfile.exists()) { //文件存在时
+                InputStream inStream = new FileInputStream(oldPath); //读入原文件
+                FileOutputStream fs = new FileOutputStream(newPath);
+                byte[] buffer = new byte[1444];
+                int length;
+                while ( (byteread = inStream.read(buffer)) != -1) {
+                    bytesum += byteread; //字节数 文件大小
+                    System.out.println(bytesum);
+                    fs.write(buffer, 0, byteread);
+                }
+                inStream.close();
+            }
+        }
+        catch (Exception e) {
+            System.out.println("复制单个文件操作出错");
+            e.printStackTrace();
+
+        }
+
     }
 
     /*
