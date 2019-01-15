@@ -114,14 +114,24 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
     @ReactMethod
     public void pictures(String winTitle,String subject,String message,ReadableArray imagesFile,ReadableArray component, Callback callback) {
         this.callback = callback;
-        ArrayList<Uri> uris = new ArrayList<Uri>();
-        for(int i=0; i<imagesFile.size();i++){
-            uris.add(Uri.parse(imagesFile.getString(i)));
+        Intent intent=new Intent();
+        if(imagesFile.size()>1){
+            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+            ArrayList<Uri> uris = new ArrayList<Uri>();
+            for(int i=0; i<imagesFile.size();i++){
+                uris.add(Uri.parse(imagesFile.getString(i)));
+            }
+            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        }else if(imagesFile.size()==1){
+            intent.setAction(Intent.ACTION_SEND);
+            Uri uris = Uri.parse(imagesFile.getString(0));
+            intent.putExtra(Intent.EXTRA_STREAM, uris);
+        }else{
+            System.out.println("uri is null");
+            return;
         }
-        Intent intent=new Intent(Intent.ACTION_SEND_MULTIPLE);
         intent.putExtra(Intent.EXTRA_SUBJECT,subject);
         intent.putExtra(Intent.EXTRA_TEXT, message);
-        intent.putExtra(Intent.EXTRA_STREAM, uris);
         intent.putExtra ("Kdescription", message);
         intent.setType("image/*");
 
