@@ -13,6 +13,9 @@ import com.facebook.react.bridge.ReactMethod;
 
 
 import com.facebook.react.bridge.ActivityEventListener;
+
+import android.os.Build;
+import android.os.StrictMode;
 import android.util.Log;
 
 import java.lang.String;
@@ -119,9 +122,20 @@ public class RNShareLocalManager extends ReactContextBaseJavaModule implements A
             uris.add(Uri.parse(imagesFile.getString(i)));
         }
         Intent intent=new Intent(Intent.ACTION_SEND_MULTIPLE);
+        if(uris.size() == 1){
+            intent=new Intent(Intent.ACTION_SEND);
+        }
         intent.putExtra(Intent.EXTRA_SUBJECT,subject);
         intent.putExtra(Intent.EXTRA_TEXT, message);
-        intent.putExtra(Intent.EXTRA_STREAM, uris);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
+        if(uris.size() == 1){
+            intent.putExtra(Intent.EXTRA_STREAM, uris.get(0));
+        }else{
+            intent.putExtra(Intent.EXTRA_STREAM, uris);
+        }
         intent.putExtra ("Kdescription", message);
         intent.setType("image/*");
 
